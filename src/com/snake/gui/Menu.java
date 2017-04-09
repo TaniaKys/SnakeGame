@@ -1,7 +1,6 @@
 package com.snake.gui;
 
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -41,7 +40,7 @@ public class Menu extends JPanel {
 
     public void initMessage() {
         message = new JLabel();
-        int height = button.getY() + button.getWidth()/2;
+        int height = button.getY() + button.getWidth() / 2;
         message.setBounds(0, 0, game.getFieldWidth(), height);
         message.setFont(new Font("Arial", Font.BOLD, 16));
         message.setForeground(Constants.COLOR_MSG_WIN);
@@ -51,8 +50,10 @@ public class Menu extends JPanel {
     }
 
     public void shows() {
-        if (game.isGameOver()) {
+        if (game.getState().equals(Game.State.GAME_OVER)) {
             message.setText(Constants.MSG_TRY_AGAIN);
+        } else if (game.getState().equals(Game.State.WIN)) {
+            message.setText(Constants.MSG_WIN);
         } else {
             message.setText(Constants.MSG_START_GAME);
         }
@@ -69,14 +70,14 @@ public class Menu extends JPanel {
 
         @Override
         public void mousePressed(MouseEvent e) {
-            game.setVisible(true);
-            setVisible(false);
-            game.start();
+
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
-
+            game.setVisible(true);
+            setVisible(false);
+            game.start();
         }
 
         @Override

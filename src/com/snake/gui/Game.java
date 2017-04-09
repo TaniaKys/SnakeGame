@@ -9,6 +9,13 @@ import java.awt.event.KeyEvent;
 
 public class Game extends JPanel implements ActionListener {
 
+    public enum State {
+        GAME_OVER,
+        IN_PROGRESS,
+        NOT_STARTED,
+        WIN
+    }
+
     private int fieldWidth;
     private int fieldHeight;
 
@@ -18,8 +25,7 @@ public class Game extends JPanel implements ActionListener {
     private Timer timer;
 
     private Menu menu;
-
-    private boolean gameOver;
+    private State state;
 
     public Game() {
         snake = new Snake();
@@ -27,6 +33,7 @@ public class Game extends JPanel implements ActionListener {
         keyListener = new KListener();
         fieldWidth = Constants.WIDTH * Constants.DOT;
         fieldHeight = Constants.HEIGHT * Constants.DOT;
+        state = State.NOT_STARTED;
     }
 
     @Override
@@ -56,7 +63,7 @@ public class Game extends JPanel implements ActionListener {
         apple.generatePosition();
     }
 
-    private boolean isWin(){
+    private boolean isWin() {
         return snake.getBody().size() == Constants.WIDTH * Constants.HEIGHT;
     }
 
@@ -89,42 +96,45 @@ public class Game extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (gameOver) {
-            return;
-        }
-        if (appleIsEaten()) {
-            apple.generatePosition();
-            snake.grow();
-        }
-        snake.move();
-        if (!isCollision()) {
-            repaint();
-        } else {
-            stop();
+        if (state.equals(State.IN_PROGRESS)) {
+            if (appleIsEaten()) {
+                apple.generatePosition();
+                snake.grow();
+            }
+            snake.move();
+            if (isCollision()) {
+                state = State.GAME_OVER;
+                stop();
+            } else if (isWin()) {
+                state = State.WIN;
+                stop();
+            } else {
+                repaint();
+            }
         }
     }
 
     public void start() {
         reset();
         timer = new Timer(Constants.SPEED, this);
-        gameOver = false;
+        state = State.IN_PROGRESS;
         placeApple();
         timer.start();
     }
 
     public void stop() {
-        gameOver = true;
+        state = State.GAME_OVER;
         timer.stop();
-        if(menu != null) menu.shows();
+        if (menu != null) menu.shows();
     }
 
-    private void reset(){
+    private void reset() {
         snake = new Snake();
         apple = new Apple();
-        gameOver = false;
+        state = State.NOT_STARTED;
     }
 
-    public void addMenu(Menu menu){
+    public void addMenu(Menu menu) {
         this.menu = menu;
     }
 
@@ -136,14 +146,14 @@ public class Game extends JPanel implements ActionListener {
         return fieldHeight;
     }
 
-    public boolean isGameOver() {
-        return gameOver;
+    public State getState() {
+        return state;
     }
 
     private class KListener extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
-            if(gameOver){
+            if (state.equals(State.GAME_OVER) || state.equals(State.NOT_STARTED)) {
                 return;
             }
             super.keyPressed(e);
