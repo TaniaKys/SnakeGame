@@ -43,7 +43,7 @@ public class Menu extends JPanel {
         int height = button.getY() + button.getWidth() / 2;
         message.setBounds(0, 0, game.getFieldWidth(), height);
         message.setFont(new Font("Arial", Font.BOLD, 16));
-        message.setForeground(Constants.COLOR_MSG_WIN);
+        message.setForeground(Constants.COLOR_MSG_START);
         message.setHorizontalAlignment(SwingConstants.CENTER);
 
         this.add(message);
@@ -51,10 +51,13 @@ public class Menu extends JPanel {
 
     public void shows() {
         if (game.getState().equals(Game.State.GAME_OVER)) {
+            message.setForeground(Constants.COLOR_MSG_LOSE);
             message.setText(Constants.MSG_TRY_AGAIN);
         } else if (game.getState().equals(Game.State.WIN)) {
+            message.setForeground(Constants.COLOR_MSG_WIN);
             message.setText(Constants.MSG_WIN);
         } else {
+            message.setForeground(Constants.COLOR_MSG_START);
             message.setText(Constants.MSG_START_GAME);
         }
         repaint();

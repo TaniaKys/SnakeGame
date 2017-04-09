@@ -14,8 +14,9 @@ public final class Constants {
     public static final Color COLOR_SNAKE_HEAD = Color.gray;
     public static final Color COLOR_APPLE = Color.red;
     public static final Color COLOR_MENU = Color.PINK;
-    public static final Color COLOR_MSG_WIN = Color.black;
+    public static final Color COLOR_MSG_WIN = Color.green;
     public static final Color COLOR_MSG_LOSE = Color.red;
+    public static final Color COLOR_MSG_START = Color.black;
 
     public static final String MSG_START_GAME = "To start game press START";
     public static final String MSG_TRY_AGAIN = "Game is over! Press START to try again";
