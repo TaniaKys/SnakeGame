@@ -46,7 +46,7 @@ public class Game extends JPanel implements ActionListener {
     }
 
     private void paintApple(Graphics g) {
-        g.setColor(Constants.COLOR_SNAKE_BODY);
+        g.setColor(Constants.COLOR_APPLE);
         g.fillRect(apple.getPosition().x, apple.getPosition().y, Constants.DOT, Constants.DOT);
     }
 
