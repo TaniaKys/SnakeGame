@@ -21,7 +21,7 @@ public class Snake {
     public Snake() {
         int startX = Constants.DOT * 20;
         int startY = Constants.DOT * 20;
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             Point point = new Point(Constants.DOT * i + startX, Constants.DOT + startY);
             body.add(point);
         }

@@ -9,13 +9,15 @@ import java.awt.event.KeyEvent;
 
 public class Game extends JPanel implements ActionListener {
 
+    private int fieldWidth;
+    private int fieldHeight;
+
     private Snake snake;
     private Apple apple;
     private KListener keyListener;
     private Timer timer;
 
-    private int fieldWidth;
-    private int fieldHeight;
+    private Menu menu;
 
     private boolean gameOver;
 
@@ -54,7 +56,11 @@ public class Game extends JPanel implements ActionListener {
         apple.generatePosition();
     }
 
-    public boolean isCollision() {
+    private boolean isWin(){
+        return snake.getBody().size() == Constants.WIDTH * Constants.HEIGHT;
+    }
+
+    private boolean isCollision() {
         return collidedWithWall() || collidedWithItself();
     }
 
@@ -99,7 +105,8 @@ public class Game extends JPanel implements ActionListener {
     }
 
     public void start() {
-        timer = new Timer(500, this);
+        reset();
+        timer = new Timer(Constants.SPEED, this);
         gameOver = false;
         placeApple();
         timer.start();
@@ -108,6 +115,17 @@ public class Game extends JPanel implements ActionListener {
     public void stop() {
         gameOver = true;
         timer.stop();
+        if(menu != null) menu.shows();
+    }
+
+    private void reset(){
+        snake = new Snake();
+        apple = new Apple();
+        gameOver = false;
+    }
+
+    public void addMenu(Menu menu){
+        this.menu = menu;
     }
 
     public int getFieldWidth() {
@@ -118,9 +136,16 @@ public class Game extends JPanel implements ActionListener {
         return fieldHeight;
     }
 
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
     private class KListener extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
+            if(gameOver){
+                return;
+            }
             super.keyPressed(e);
             switch (e.getKeyCode()) {
                 case 37:

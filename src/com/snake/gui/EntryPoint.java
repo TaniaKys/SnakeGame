@@ -13,18 +13,22 @@ public class EntryPoint {
     private static void createScene() {
         JFrame scene = new JFrame("Snake");
 
-        Game snakeGame = new Game();
-        snakeGame.setPreferredSize(new Dimension(snakeGame.getFieldWidth(), snakeGame.getFieldHeight()));
-
         scene.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         scene.setLocationRelativeTo(null);
-        scene.setResizable(false);
+        scene.setResizable(true);
+
+        Game snakeGame = new Game();
+        snakeGame.setPreferredSize(new Dimension(snakeGame.getFieldWidth(), snakeGame.getFieldHeight()));
 
         scene.add(snakeGame);
         scene.addKeyListener(snakeGame.getKeyListener());
         scene.pack();
+
+        Menu menu = new Menu(snakeGame);
+        snakeGame.addMenu(menu);
+        scene.add(menu);
+
         scene.setVisible(true);
 
-        snakeGame.start();
     }
 }
