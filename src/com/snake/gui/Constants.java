@@ -3,9 +3,9 @@ package com.snake.gui;
 import java.awt.*;
 
 public final class Constants {
-    public static final int WIDTH = 40;
-    public static final int HEIGHT = 40;
-    public static final int DOT = 10;
+    public static final int WIDTH = 20;
+    public static final int HEIGHT = 20;
+    public static final int DOT = 20;
 
     public static final int SPEED = 500;
 

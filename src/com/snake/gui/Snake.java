@@ -8,7 +8,7 @@ import java.util.List;
 public class Snake {
 
     private List<Point> body = new ArrayList<>();
-    private Direction direction = Direction.UP;
+    private Direction direction = Direction.RIGHT;
     private Point head;
 
     public enum Direction {
@@ -19,10 +19,8 @@ public class Snake {
     }
 
     public Snake() {
-        int startX = Constants.DOT * 20;
-        int startY = Constants.DOT * 20;
-        for (int i = 0; i < 5; i++) {
-            Point point = new Point(Constants.DOT * i + startX, Constants.DOT + startY);
+        for (int i = 3; i >= 0; i--) {
+            Point point = new Point(Constants.DOT * i , Constants.DOT );
             body.add(point);
         }
         head = body.get(0);
@@ -51,9 +49,9 @@ public class Snake {
         }
     }
 
-    public void grow(){
+    public void grow() {
         Point currentTail = body.get(body.size() - 1);
-        Point newTail = new Point(currentTail.x+Constants.DOT, currentTail.y +Constants.DOT);
+        Point newTail = new Point(currentTail.x + Constants.DOT, currentTail.y + Constants.DOT);
         body.add(newTail);
     }
 

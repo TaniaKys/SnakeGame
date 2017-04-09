@@ -14,8 +14,8 @@ public class Apple {
     }
 
     public Point generatePosition() {
-        int x = random.nextInt(Constants.WIDTH - 1) * 10;
-        int y = random.nextInt(Constants.HEIGHT - 1) * 10;
+        int x = random.nextInt(Constants.WIDTH - 1) * Constants.DOT;
+        int y = random.nextInt(Constants.HEIGHT - 1) * Constants.DOT;
         position = new Point(x, y);
         return position;
     }

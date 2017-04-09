@@ -15,7 +15,7 @@ public class EntryPoint {
 
         scene.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         scene.setLocationRelativeTo(null);
-        scene.setResizable(true);
+        scene.setResizable(false);
 
         Game snakeGame = new Game();
         snakeGame.setPreferredSize(new Dimension(snakeGame.getFieldWidth(), snakeGame.getFieldHeight()));
