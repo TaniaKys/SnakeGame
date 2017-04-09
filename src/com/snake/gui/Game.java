@@ -61,6 +61,9 @@ public class Game extends JPanel implements ActionListener {
 
     private void placeApple() {
         apple.generatePosition();
+        if (snake.getBody().contains(apple.getPosition())) {
+            placeApple();
+        }
     }
 
     private boolean isWin() {
@@ -98,7 +101,7 @@ public class Game extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (state.equals(State.IN_PROGRESS)) {
             if (appleIsEaten()) {
-                apple.generatePosition();
+                placeApple();
                 snake.grow();
             }
             snake.move();
