@@ -10,6 +10,7 @@ import java.awt.event.KeyEvent;
 public class Game extends JPanel implements ActionListener {
 
     private Snake snake;
+    private Apple apple;
     private KListener keyListener;
     private Timer timer;
 
@@ -20,6 +21,7 @@ public class Game extends JPanel implements ActionListener {
 
     public Game() {
         snake = new Snake();
+        apple = new Apple();
         keyListener = new KListener();
         fieldWidth = Constants.WIDTH * Constants.DOT;
         fieldHeight = Constants.HEIGHT * Constants.DOT;
@@ -28,19 +30,28 @@ public class Game extends JPanel implements ActionListener {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.setColor(Color.cyan);
+        g.setColor(Constants.COLOR_FIELD);
         g.fillRect(0, 0, fieldWidth, fieldHeight);
-
+        paintApple(g);
         paintSnake(g);
     }
 
     private void paintSnake(Graphics g) {
-        g.setColor(Color.gray);
+        g.setColor(Constants.COLOR_SNAKE_HEAD);
         g.fillRect(snake.getHead().x, snake.getHead().y, Constants.DOT, Constants.DOT);
-        g.setColor(Color.black);
+        g.setColor(Constants.COLOR_SNAKE_BODY);
         for (int i = 1; i < snake.getBody().size(); i++) {
             g.fillRect(snake.getBody().get(i).x, snake.getBody().get(i).y, Constants.DOT, Constants.DOT);
         }
+    }
+
+    private void paintApple(Graphics g) {
+        g.setColor(Constants.COLOR_SNAKE_BODY);
+        g.fillRect(apple.getPosition().x, apple.getPosition().y, Constants.DOT, Constants.DOT);
+    }
+
+    private void placeApple() {
+        apple.generatePosition();
     }
 
     public boolean isCollision() {
@@ -66,10 +77,18 @@ public class Game extends JPanel implements ActionListener {
         return false;
     }
 
+    private boolean appleIsEaten() {
+        return snake.getHead().equals(apple.getPosition());
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (gameOver) {
             return;
+        }
+        if (appleIsEaten()) {
+            apple.generatePosition();
+            snake.grow();
         }
         snake.move();
         if (!isCollision()) {
@@ -82,12 +101,21 @@ public class Game extends JPanel implements ActionListener {
     public void start() {
         timer = new Timer(500, this);
         gameOver = false;
+        placeApple();
         timer.start();
     }
 
     public void stop() {
         gameOver = true;
         timer.stop();
+    }
+
+    public int getFieldWidth() {
+        return fieldWidth;
+    }
+
+    public int getFieldHeight() {
+        return fieldHeight;
     }
 
     private class KListener extends KeyAdapter {

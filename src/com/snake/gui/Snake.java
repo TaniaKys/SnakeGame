@@ -3,7 +3,6 @@ package com.snake.gui;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 
 public class Snake {
@@ -50,6 +49,12 @@ public class Snake {
                 head.translate(0, -Constants.DOT);
                 break;
         }
+    }
+
+    public void grow(){
+        Point currentTail = body.get(body.size() - 1);
+        Point newTail = new Point(currentTail.x+Constants.DOT, currentTail.y +Constants.DOT);
+        body.add(newTail);
     }
 
     public List<Point> getBody() {
